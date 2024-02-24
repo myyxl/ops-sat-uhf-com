@@ -1,0 +1,617 @@
+options:
+  parameters:
+    author: Fischer Benjamin, Mladenov Tom, Marlon Starkloff
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: UHF RX application
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: receiver
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: OPS-SAT UHF RX
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 12.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: baud_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '9600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 68.0]
+    rotation: 0
+    state: enabled
+- name: doppler_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: true_freq - signal_freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [824, 52.0]
+    rotation: 0
+    state: enabled
+- name: freq_tuned
+  id: variable
+  parameters:
+    comment: ''
+    value: offset_freq - doppler_freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 52.0]
+    rotation: 0
+    state: enabled
+- name: gain_mu
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.175'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 28.0]
+    rotation: 0
+    state: enabled
+- name: gaussian_taps
+  id: variable
+  parameters:
+    comment: ''
+    value: firdes.gaussian (1.5, 2* (samp_rate_down / baud_rate) , 0.5, 12)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 188.0]
+    rotation: 0
+    state: enabled
+- name: offset_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: -40e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 196.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 200e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 156.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate_down
+  id: variable
+  parameters:
+    comment: ''
+    value: 57.6e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 220.0]
+    rotation: 0
+    state: enabled
+- name: signal_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: 437.2e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 196.0]
+    rotation: 0
+    state: enabled
+- name: squelch
+  id: variable
+  parameters:
+    comment: ''
+    value: '-130'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [224, 68.0]
+    rotation: 0
+    state: enabled
+- name: true_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: signal_freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 52.0]
+    rotation: 0
+    state: enabled
+- name: variable_low_pass_filter_taps_0
+  id: variable_low_pass_filter_taps
+  parameters:
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: '25000'
+    gain: '1.0'
+    samp_rate: samp_rate
+    value: ''
+    width: '1000'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 20.0]
+    rotation: 0
+    state: enabled
+- name: analog_quadrature_demod_cf_0
+  id: analog_quadrature_demod_cf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain: 2 * (samp_rate_down / baud_rate) /(math.pi)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [256, 556.0]
+    rotation: 0
+    state: enabled
+- name: analog_simple_squelch_cc_0
+  id: analog_simple_squelch_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: '1'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    threshold: squelch
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 388.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_source_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: /home/marlon/Desktop/gr-opssat/recordings/osat_437.16M_200k_beacon_mode6.cf32
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 364.0]
+    rotation: 0
+    state: enabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 192.0]
+    rotation: 0
+    state: true
+- name: blocks_message_debug_1
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1352, 584.0]
+    rotation: 0
+    state: disabled
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 396.0]
+    rotation: 0
+    state: enabled
+- name: digital_clock_recovery_mm_xx_0
+  id: digital_clock_recovery_mm_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gain_mu: gain_mu
+    gain_omega: 0.25*gain_mu*gain_mu
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mu: '0.5'
+    omega: (samp_rate_down / baud_rate)*(1+0.0)
+    omega_relative_limit: '0.005'
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 524.0]
+    rotation: 0
+    state: enabled
+- name: fir_filter_xxx_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: gaussian_taps
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 548.0]
+    rotation: 0
+    state: enabled
+- name: freq_xlating_fir_filter_xxx_0
+  id: freq_xlating_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: -freq_tuned
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    taps: variable_low_pass_filter_taps_0
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 388.0]
+    rotation: 0
+    state: enabled
+- name: gpredict_MsgPairToVar_0
+  id: gpredict_MsgPairToVar
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    target: true_freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 132.0]
+    rotation: 0
+    state: enabled
+- name: gpredict_doppler_1_0
+  id: gpredict_doppler
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gpredict_host: localhost
+    gpredict_port: '4532'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    verbose: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [648, 168.0]
+    rotation: 0
+    state: enabled
+- name: note_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: Determined by Gpredict
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 12.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: Calculated
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 12.0]
+    rotation: 0
+    state: enabled
+- name: note_0_1
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: GMSK9k6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 28.0]
+    rotation: 0
+    state: enabled
+- name: note_1
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: Satellite frequency
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [136, 156.0]
+    rotation: 0
+    state: enabled
+- name: note_1_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: Offset sampling
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 156.0]
+    rotation: 0
+    state: enabled
+- name: note_1_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: Squelch
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [216, 28.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_waterfall_sink_x_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '512'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"OPS-SAT UHF BEACON"'
+    nconnections: '1'
+    showports: 'True'
+    type: complex
+    update_time: '0.03'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 296.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: int(samp_rate)
+    fbw: '0'
+    interp: int(samp_rate_down)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 388.0]
+    rotation: 0
+    state: enabled
+- name: satellites_ax25_deframer_0
+  id: satellites_ax25_deframer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    g3ruh_scrambler: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    options: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 556.0]
+    rotation: 0
+    state: true
+- name: virtual_sink_0_0_1
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: sample
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 412.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: sample
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 556.0]
+    rotation: 0
+    state: enabled
+- name: zeromq_pub_msg_sink_0
+  id: zeromq_pub_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:5555
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: ''
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1304, 484.0]
+    rotation: 0
+    state: true
+
+connections:
+- [analog_quadrature_demod_cf_0, '0', fir_filter_xxx_0, '0']
+- [analog_simple_squelch_cc_0, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [blocks_file_source_0, '0', blocks_throttle_0, '0']
+- [blocks_throttle_0, '0', analog_simple_squelch_cc_0, '0']
+- [digital_clock_recovery_mm_xx_0, '0', satellites_ax25_deframer_0, '0']
+- [fir_filter_xxx_0, '0', digital_clock_recovery_mm_xx_0, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', rational_resampler_xxx_0, '0']
+- [gpredict_doppler_1_0, freq, blocks_message_debug_0, print]
+- [gpredict_doppler_1_0, freq, gpredict_MsgPairToVar_0, inpair]
+- [rational_resampler_xxx_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [rational_resampler_xxx_0, '0', virtual_sink_0_0_1, '0']
+- [satellites_ax25_deframer_0, out, blocks_message_debug_1, print]
+- [satellites_ax25_deframer_0, out, zeromq_pub_msg_sink_0, in]
+- [virtual_source_0, '0', analog_quadrature_demod_cf_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.5.1
